@@ -123,5 +123,31 @@ class Cart implements Arrayable
         foreach ($this->items as $item) {
             $cart['Items'][] = $item->toArray();
         }
+
+        return $cart;
+    }
+
+    /**
+     * @return array
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDiscountType(): string
+    {
+        return $this->discountType;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscountValue(): float
+    {
+        return $this->discountValue;
     }
 }
