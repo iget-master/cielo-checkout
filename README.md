@@ -1,2 +1,2 @@
-# cielo-checkout
-Provides simple Cielo checkout integration on Laravel 5
+# Cielo Checkout
+Provides simple *Cielo Checkout* integration on Laravel 5
