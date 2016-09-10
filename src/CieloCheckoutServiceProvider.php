@@ -1,5 +1,7 @@
 <?php namespace Iget\CieloCheckout;
 
+use Iget\CieloCheckout\Models\CieloOrder;
+use Iget\CieloCheckout\Models\Observers\CieloOrderObserver;
 use Illuminate\Support\ServiceProvider;
 
 class CieloCheckoutServiceProvider extends ServiceProvider  {
@@ -17,5 +19,11 @@ class CieloCheckoutServiceProvider extends ServiceProvider  {
 
             return $trans;
         });
+
+        $this->publishes([
+            __DIR__.'/../database/migrations/' => database_path('migrations')
+        ], 'migrations');
+
+        CieloOrder::observe(new CieloOrderObserver());
     }
 }
