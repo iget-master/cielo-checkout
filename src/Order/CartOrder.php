@@ -1,7 +1,9 @@
 <?php
 namespace Iget\CieloCheckout\Order;
 
-
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client as GuzzleClient;
+use Iget\CieloCheckout\CieloCheckout;
 use Illuminate\Contracts\Support\Arrayable;
 
 class CartOrder implements Arrayable
@@ -30,11 +32,20 @@ class CartOrder implements Arrayable
     private $antifraudEnabled;
 
     /**
-     * CartOrder constructor.
+     * @var
      */
-    public function __construct()
-    {
+    private $merchantId;
 
+    /**
+     * CartOrder constructor.
+     * @param $merchantId
+     */
+    public function __construct($merchantId)
+    {
+        $this->cart = new Cart();
+        $this->shipping = new Shipping();
+        $this->customer = new Customer();
+        $this->merchantId = $merchantId;
     }
 
     /**
@@ -62,34 +73,46 @@ class CartOrder implements Arrayable
     }
 
     /**
-     * @param \Iget\CieloCheckout\Order\Cart $cart
+     * @param \Iget\CieloCheckout\Order\Cart|\Closure $cart
      * @return \Iget\CieloCheckout\Order\CartOrder
      */
-    public function setCart(Cart $cart): CartOrder
+    public function setCart($cart): CartOrder
     {
-        $this->cart = $cart;
+        if ($cart instanceof Cart) {
+            $this->cart = $cart;
+        } else if ($cart instanceof \Closure) {
+            $cart($this->cart);
+        }
 
         return $this;
     }
 
     /**
-     * @param \Iget\CieloCheckout\Order\Shipping $shipping
+     * @param \Iget\CieloCheckout\Order\Shipping|\Closure $shipping
      * @return \Iget\CieloCheckout\Order\CartOrder
      */
-    public function setShipping(Shipping $shipping): CartOrder
+    public function setShipping($shipping): CartOrder
     {
-        $this->shipping = $shipping;
+        if ($shipping instanceof Cart) {
+            $this->shipping = $shipping;
+        } else if ($shipping instanceof \Closure) {
+            $shipping($this->shipping);
+        }
 
         return $this;
     }
 
     /**
-     * @param \Iget\CieloCheckout\Order\Customer $customer
-     * @return CartOrder
+     * @param \Iget\CieloCheckout\Order\Customer|\Closure $customer
+     * @return \Iget\CieloCheckout\Order\CartOrder
      */
-    public function setCustomer(Customer $customer): CartOrder
+    public function setCustomer($customer): CartOrder
     {
-        $this->customer = $customer;
+        if ($customer instanceof Cart) {
+            $this->customer = $customer;
+        } else if ($customer instanceof \Closure) {
+            $customer($this->customer);
+        }
 
         return $this;
     }
@@ -127,5 +150,36 @@ class CartOrder implements Arrayable
         }
 
         return $cartOrder;
+    }
+
+    /**
+     * @return string
+     */
+    public function request()
+    {
+        $guzzleClient =  new GuzzleClient();
+
+        try {
+            $headers = [
+                'MerchantId' => config('cielo.merchant_id'),
+                'Content-type' => 'application/json'
+            ];
+            $body = json_encode($this->toArray());
+            $response = $guzzleClient->post(CieloCheckout::ORDER_ENDPOINT, compact('headers', 'body'));
+
+            $response = json_decode($response->getBody());
+
+            return $response->settings->checkoutUrl;
+        } catch (RequestException $e) {
+            \Log::alert(
+                'RequestException when trying to get checkoutUrl from Cielo Checkout',
+                [
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage()
+                ]
+            );
+
+            return abort(500);
+        }
     }
 }

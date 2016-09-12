@@ -7,6 +7,12 @@ class CieloCheckout
     private $merchantId;
 
     /**
+     * Cielo Constants
+     */
+
+    const ORDER_ENDPOINT = 'https://cieloecommerce.cielo.com.br/api/public/v1/orders';
+
+    /**
      * CieloCheckout constructor.
      *
      * @param $merchantId
@@ -21,6 +27,6 @@ class CieloCheckout
      */
     public function make()
     {
-        return new CartOrder();
+        return new CartOrder($this->merchantId);
     }
 }

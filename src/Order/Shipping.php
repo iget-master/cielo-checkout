@@ -7,10 +7,54 @@ use Illuminate\Contracts\Support\Arrayable;
 // @todo: To be implemented
 class Shipping implements Arrayable
 {
+    /**
+     * @var null
+     */
+    private $type;
+    /**
+     * @var null
+     */
+    private $sourceZipCode;
+    /**
+     * @var null
+     */
+    private $targetZipCode;
+    /**
+     * @var null
+     */
+    private $address;
+    /**
+     * @var null
+     */
+    private $service;
+    /**
+     * @var null
+     */
+    private $measures;
 
-    public function __construct()
-    {
-
+    /**
+     * Shipping constructor.
+     * @param null $type
+     * @param null $sourceZipCode
+     * @param null $targetZipCode
+     * @param null $address
+     * @param null $service
+     * @param null $measures
+     */
+    public function __construct(
+        $type = null,
+        $sourceZipCode = null,
+        $targetZipCode = null,
+        $address = null,
+        $service = null,
+        $measures = null
+    ) {
+        $this->type = $type;
+        $this->sourceZipCode = $sourceZipCode;
+        $this->targetZipCode = $targetZipCode;
+        $this->address = $address;
+        $this->service = $service;
+        $this->measures = $measures;
     }
 
     /**
@@ -20,6 +64,19 @@ class Shipping implements Arrayable
      */
     public function toArray()
     {
-        return [];
+        return [
+            'Type' => $this->type,
+        ];
+    }
+
+    /**
+     * @param null $type
+     * @return Shipping
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }
