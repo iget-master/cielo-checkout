@@ -173,7 +173,8 @@ class CartOrder implements Arrayable
             $this->setOrderNumber($cieloOrder->order_id);
 
             $body = $this->toArray();
-            $cieloOrder->update(compact('body'));
+            $cieloOrder->body = $body;
+            $cieloOrder->save();
             $body = json_encode($body);
 
             $response = $guzzleClient->post(CieloCheckout::ORDER_ENDPOINT, compact('headers', 'body'));
