@@ -49,6 +49,22 @@ class CieloOrder extends Eloquent
     ];
 
     /**
+     * The available payment status codes
+     *
+     * @var array
+     */
+    public static $availableStatuses = [
+        1 => 'PENDING',
+        2 => 'PAID',
+        3 => 'DENIED',
+        4 => 'EXPIRED',
+        5 => 'CANCELED',
+        6 => 'NOT_FINISHED',
+        7 => 'AUTHORIZED',
+        8 => 'CHARGEBACK',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function payable()
