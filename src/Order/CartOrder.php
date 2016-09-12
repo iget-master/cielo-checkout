@@ -4,7 +4,9 @@ namespace Iget\CieloCheckout\Order;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client as GuzzleClient;
 use Iget\CieloCheckout\CieloCheckout;
+use Iget\CieloCheckout\Models\CieloOrder;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Model;
 
 class CartOrder implements Arrayable
 {
@@ -155,7 +157,7 @@ class CartOrder implements Arrayable
     /**
      * @return string
      */
-    public function request()
+    public function request(Model $payable)
     {
         $guzzleClient =  new GuzzleClient();
 
@@ -164,7 +166,16 @@ class CartOrder implements Arrayable
                 'MerchantId' => config('cielo.merchant_id'),
                 'Content-type' => 'application/json'
             ];
-            $body = json_encode($this->toArray());
+            $cieloOrder = new CieloOrder();
+            $cieloOrder->payable()->associate($payable);
+            $cieloOrder->save();
+
+            $this->setOrderNumber($cieloOrder->order_id);
+
+            $body = $this->toArray();
+            $cieloOrder->update(compact('body'));
+            $body = json_encode($body);
+
             $response = $guzzleClient->post(CieloCheckout::ORDER_ENDPOINT, compact('headers', 'body'));
 
             $response = json_decode($response->getBody());

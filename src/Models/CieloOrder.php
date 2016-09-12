@@ -19,7 +19,7 @@ class CieloOrder extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'order',
+        'body',
         'payment_status',
         'notification',
     ];
@@ -30,7 +30,15 @@ class CieloOrder extends Eloquent
      * @var array
      */
     protected $casts = [
-        'order' => 'array',
+        'body' => 'array',
         'notification' => 'array',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function payable()
+    {
+        return $this->morphTo();
+    }
 }

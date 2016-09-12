@@ -17,10 +17,14 @@ class CreateCieloOrdersTable extends Migration {
 		    $table->string('order_id');
             $table->primary('order_id');
 
-            $table->text('order');
-            $table->text('notification');
+            $table->text('body')->nullable();
+            $table->text('notification')->nullable();
 
             $table->unsignedInteger('payment_status');
+
+            $table->string('payable_type');
+            $table->unsignedInteger('payable_id');
+            $table->timestamps();
 		});
 	}
 
