@@ -21,6 +21,8 @@ class CieloOrderObserver
 
         $model->order_id = $order_id;
 
+        event(new PaymentStatusHasChanged($model, $model->getOriginal('payment_status'), $model->payment_status));
+
         return true;
     }
 
