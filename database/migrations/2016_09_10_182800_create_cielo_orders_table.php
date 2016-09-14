@@ -23,7 +23,7 @@ class CreateCieloOrdersTable extends Migration {
             $table->unsignedInteger('payment_status');
 
             $table->string('payable_type');
-            $table->unsignedInteger('payable_id');
+            $table->string('payable_id');
             $table->timestamps();
 		});
 	}
