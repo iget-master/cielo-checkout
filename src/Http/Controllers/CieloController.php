@@ -23,12 +23,15 @@ class CieloController extends Controller
      */
     public function notify(Request $request)
     {
-        $order = CieloOrder::findOrFail($request->order_number);
-        $order->notification = $request->all();
-        $order->payment_status = $request->payment_status;
-        $order->save();
+        $order = CieloOrder::find($request->order_number);
 
-        \Log::info("Received transaction notification for Order \"{$request->order_number}\".");
+        if ($order) {
+            $order->notification = $request->all();
+            $order->payment_status = $request->payment_status;
+            $order->save();
+
+            \Log::info("Received transaction notification for Order \"{$request->order_number}\".");
+        }
 
         return $this->responseOk();
     }
@@ -41,11 +44,14 @@ class CieloController extends Controller
      */
     public function status(Request $request)
     {
-        $order = CieloOrder::findOrFail($request->order_number);
-        $order->payment_status = $request->payment_status;
-        $order->save();
+        $order = CieloOrder::find($request->order_number);
 
-        \Log::info("Received status change notification for Order \"{$request->order_number}\". New Status is \"{$request->payment_status}\".");
+        if ($order) {
+            $order->payment_status = $request->payment_status;
+            $order->save();
+
+            \Log::info("Received status change notification for Order \"{$request->order_number}\". New Status is \"{$request->payment_status}\".");
+        }
 
         return $this->responseOk();
     }
