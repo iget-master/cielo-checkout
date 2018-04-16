@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: esoares
- * Date: 10/09/16
- * Time: 16:07
- */
-
 namespace Iget\CieloCheckout\Order;
 
 use Illuminate\Contracts\Support\Arrayable;

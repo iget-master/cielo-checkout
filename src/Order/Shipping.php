@@ -4,7 +4,6 @@ namespace Iget\CieloCheckout\Order;
 
 use Illuminate\Contracts\Support\Arrayable;
 
-// @todo: To be implemented
 class Shipping implements Arrayable
 {
     /**
@@ -31,6 +30,12 @@ class Shipping implements Arrayable
      * @var null
      */
     private $measures;
+
+    const TYPE_FIXED = 'FixedAmount';
+    const TYPE_FREE = 'Free';
+    const TYPE_PICKUP = 'WithoutShippingPickUp';
+    const TYPE_WITHOUT = 'WithoutShipping';
+    const TYPE_CORREIOS = 'Correios';
 
     /**
      * Shipping constructor.

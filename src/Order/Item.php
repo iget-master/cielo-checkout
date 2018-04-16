@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: esoares
- * Date: 10/09/16
- * Time: 16:07
- */
 
 namespace Iget\CieloCheckout\Order;
-
 
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -49,6 +42,11 @@ class Item implements Arrayable
      * @var int
      */
     private $weight;
+
+    const TYPE_ASSET = 'Asset';
+    const TYPE_DIGITAL = 'Digital';
+    const TYPE_SERVICE = 'Service';
+    const TYPE_PAYMENT = 'Payment';
 
     /**
      * Item constructor.

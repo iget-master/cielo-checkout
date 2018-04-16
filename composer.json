@@ -3,13 +3,13 @@
     "description": "Provides simple Cielo Checkout integration on Laravel 5",
     "require": {
         "php": ">=7.0.0",
-        "illuminate/support": "5.0.x|5.1.x|5.2.x|5.3.x|5.4.x|5.5.x",
+        "illuminate/support": "5.x",
         "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
         "phpspec/phpspec": "~2.1",
-        "laravel/laravel": "5.0.x|5.1.x|5.2.x|5.3.x|5.4.x|5.5.x"
+        "laravel/framework": "5.x"
     },
     "autoload": {
         "psr-4": {
@@ -27,5 +27,15 @@
             "email": "esoares@iget.com.br"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Iget\\CieloCheckout\\ServiceProvider"
+            ],
+            "aliases": {
+                "Cielo": "Iget\\CieloCheckout\\Facade"
+            }
+        }
+    }
 }

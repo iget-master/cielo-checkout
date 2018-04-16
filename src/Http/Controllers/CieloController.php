@@ -2,19 +2,15 @@
 
 namespace Iget\CieloCheckout\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\TicketOrderRequest;
-use App\Models\Client;
-use App\Models\TicketOrder;
-use App\Models\TicketSeat;
-use App\Models\TicketShow;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\RequestException;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 use Iget\CieloCheckout\Models\CieloOrder;
 use Illuminate\Http\Request;
 
-class CieloController extends Controller
+class CieloController extends BaseController
 {
+    use ValidatesRequests;
+
     /**
      * Receives Transaction Notification from Cielo
      *

@@ -2,9 +2,9 @@
 
 use Iget\CieloCheckout\Models\CieloOrder;
 use Iget\CieloCheckout\Models\Observers\CieloOrderObserver;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-class CieloCheckoutServiceProvider extends ServiceProvider  {
+class ServiceProvider extends BaseServiceProvider  {
 
     /**
      * Bootstrap any application services.
@@ -13,6 +13,11 @@ class CieloCheckoutServiceProvider extends ServiceProvider  {
      */
     public function boot()
     {
+        $configPath = __DIR__ . '/../config/cielo.php';
+
+        $publishPath = config_path('cielo.php');
+        $this->publishes([$configPath => $publishPath], 'config');
+
         CieloOrder::observe(new CieloOrderObserver());
     }
 
@@ -34,5 +39,10 @@ class CieloCheckoutServiceProvider extends ServiceProvider  {
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/cielo.php',
+            'cielo'
+        );
     }
 }

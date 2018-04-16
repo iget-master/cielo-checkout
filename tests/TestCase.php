@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Iget\CieloCheckout\CieloCheckoutServiceProvider;
+use Iget\CieloCheckout\ServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -18,7 +18,7 @@ abstract class TestCase extends BaseTestCase
     {
         $app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
 
-        $app->register(CieloCheckoutServiceProvider::class);
+        $app->register(ServiceProvider::class);
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         return $app;

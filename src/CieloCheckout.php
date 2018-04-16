@@ -1,6 +1,7 @@
 <?php namespace Iget\CieloCheckout;
 
 use Iget\CieloCheckout\Order\CartOrder;
+use Illuminate\Support\Facades\Route;
 
 class CieloCheckout
 {
@@ -28,5 +29,22 @@ class CieloCheckout
     public function make()
     {
         return new CartOrder($this->merchantId);
+    }
+
+    /**
+     * @param array $options
+     */
+    public function routes(array $options = [])
+    {
+        $defaultOptions = [
+            'namespace' => '\Iget\CieloCheckout\Http\Controllers',
+        ];
+
+        $options = array_merge($defaultOptions, $options);
+
+        Route::group($options, function() {
+            Route::post('/cielo/notify', ['as' => 'cielo.notify', 'uses' => 'CieloController@notify']);
+            Route::post('/cielo/status', ['as' => 'cielo.status', 'uses' => 'CieloController@status']);
+        });
     }
 }
