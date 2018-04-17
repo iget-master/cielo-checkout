@@ -1,6 +1,6 @@
 <?php
 
-namespace Iget\CieloCheckout\Facades;
+namespace Iget\CieloCheckout;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 
