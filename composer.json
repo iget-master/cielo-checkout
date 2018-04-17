@@ -34,7 +34,7 @@
                 "Iget\\CieloCheckout\\ServiceProvider"
             ],
             "aliases": {
-                "Cielo": "Iget\\CieloCheckout\\Facade"
+                "Cielo": "Iget\\CieloCheckout\\CieloFacade"
             }
         }
     }

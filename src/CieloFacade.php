@@ -2,9 +2,9 @@
 
 namespace Iget\CieloCheckout;
 
-use Illuminate\Support\Facades\Facade as BaseFacade;
+use Illuminate\Support\Facades\Facade;
 
-class Facade extends BaseFacade
+class CieloFacade extends Facade
 {
     /**
      * Get the registered name of the component.
