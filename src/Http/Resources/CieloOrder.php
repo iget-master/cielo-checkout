@@ -15,10 +15,10 @@ class CieloOrder extends Resource
     public function toArray($request)
     {
         return [
-            'order_id' => $request->resource->order_id,
-            'payment_status' => $request->resource->payment_status,
-            'body' => $request->resource->body,
-            'notification' => $request->resource->notification,
+            'order_id' => $this->resource->order_id,
+            'payment_status' => $this->resource->payment_status,
+            'body' => $this->resource->body,
+            'notification' => $this->resource->notification,
         ];
     }
 }
