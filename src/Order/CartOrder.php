@@ -39,6 +39,16 @@ class CartOrder implements Arrayable
     private $merchantId;
 
     /**
+     * @var integer
+     */
+    private $maxNumberOfInstallments;
+
+    /**
+     * @var integer|float
+     */
+    private $firstInstallmentDiscount;
+
+    /**
      * CartOrder constructor.
      * @param $merchantId
      */
@@ -59,6 +69,32 @@ class CartOrder implements Arrayable
     public function setOrderNumber($orderNumber): CartOrder
     {
         $this->orderNumber = $orderNumber;
+
+        return $this;
+    }
+
+    /**
+     * Set the maxNumberOfInstallments
+     *
+     * @param $installments
+     * @return \Iget\CieloCheckout\Order\CartOrder
+     */
+    public function setMaxNumberOfInstallments($installments): CartOrder
+    {
+        $this->maxNumberOfInstallments = $installments;
+
+        return $this;
+    }
+
+    /**
+     * Set the FirstInstallmentDiscount in percent
+     *
+     * @param $discount
+     * @return \Iget\CieloCheckout\Order\CartOrder
+     */
+    public function setFirstInstallmentDiscount($discount): CartOrder
+    {
+        $this->firstInstallmentDiscount = $discount;
 
         return $this;
     }
@@ -145,6 +181,14 @@ class CartOrder implements Arrayable
 
         if (isset($this->customer)) {
             $cartOrder['Customer'] = $this->customer->toArray();
+        }
+
+        if (isset($this->firstInstallmentDiscount)) {
+            $cartOrder['FirstInstallmentDiscount'] = $this->firstInstallmentDiscount;
+        }
+
+        if (isset($this->maxNumberOfInstallments)) {
+            $cartOrder['MaxNumberOfInstallments'] = $this->maxNumberOfInstallments;
         }
 
         if (isset($this->antifraudEnabled)) {
