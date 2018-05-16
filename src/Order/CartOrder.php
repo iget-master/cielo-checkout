@@ -156,6 +156,32 @@ class CartOrder implements Arrayable
     }
 
     /**
+     * @return \Iget\CieloCheckout\Order\CartOrder
+     */
+    public function setAntifraud(bool $value): CartOrder
+    {
+        $this->antifraudEnabled = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return \Iget\CieloCheckout\Order\CartOrder
+     */
+    public function enableAntifraud(): CartOrder
+    {
+        return $this->setAntifraud(true);
+    }
+
+    /**
+     * @return \Iget\CieloCheckout\Order\CartOrder
+     */
+    public function disableAntifraud(): CartOrder
+    {
+        return $this->setAntifraud(false);
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
