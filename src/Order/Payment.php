@@ -22,15 +22,39 @@ class Payment implements Arrayable
      */
     private $recurrentPayment;
 
-    public function __construct(float $boletoDiscount = null, float $debitDiscount = null, RecurrentPayment $recurrentPayment = null)
-    {
+    /**
+     * @var integer
+     */
+    private $maxNumberOfInstallments;
 
+    /**
+     * @var integer|float
+     */
+    private $firstInstallmentDiscount;
+
+    /**
+     * Payment constructor.
+     *
+     * @param float|null                                      $boletoDiscount
+     * @param float|null                                      $debitDiscount
+     * @param \Iget\CieloCheckout\Order\RecurrentPayment|null $recurrentPayment
+     * @param int                                             $maxNumberOfInstallments
+     * @param float|int                                       $firstInstallmentDiscount
+     */
+    public function __construct(
+        float $boletoDiscount = null,
+        float $debitDiscount = null,
+        RecurrentPayment $recurrentPayment = null,
+        $maxNumberOfInstallments = null,
+        $firstInstallmentDiscount = null
+    )
+    {
         $this->boletoDiscount = $boletoDiscount;
         $this->debitDiscount = $debitDiscount;
         $this->recurrentPayment = $recurrentPayment;
+        $this->maxNumberOfInstallments = $maxNumberOfInstallments;
+        $this->firstInstallmentDiscount = $firstInstallmentDiscount;
     }
-
-
 
     /**
      * Get the instance as an array.
@@ -39,7 +63,13 @@ class Payment implements Arrayable
      */
     public function toArray()
     {
-        return [];
+        return [
+            'BoletoDiscount' => $this->boletoDiscount,
+            'DebitDiscount' => $this->debitDiscount,
+            'RecurrentPayment' => $this->recurrentPayment,
+            'MaxNumberOfInstallments' => $this->maxNumberOfInstallments,
+            'FirstInstallmentDiscount' => $this->firstInstallmentDiscount,
+        ];
     }
 
     /**
@@ -60,6 +90,34 @@ class Payment implements Arrayable
     public function setDebitDiscount(float $debitDiscount): Payment
     {
         $this->debitDiscount = $debitDiscount;
+
+        return $this;
+    }
+
+
+
+    /**
+     * Set the maxNumberOfInstallments
+     *
+     * @param $installments
+     * @return \Iget\CieloCheckout\Order\Payment
+     */
+    public function setMaxNumberOfInstallments($installments): Payment
+    {
+        $this->maxNumberOfInstallments = $installments;
+
+        return $this;
+    }
+
+    /**
+     * Set the FirstInstallmentDiscount in percent
+     *
+     * @param $discount
+     * @return \Iget\CieloCheckout\Order\Payment
+     */
+    public function setFirstInstallmentDiscount($discount): Payment
+    {
+        $this->firstInstallmentDiscount = $discount;
 
         return $this;
     }
