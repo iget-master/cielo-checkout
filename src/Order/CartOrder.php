@@ -1,12 +1,15 @@
 <?php
 namespace Iget\CieloCheckout\Order;
 
+use Exception;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client as GuzzleClient;
 use Iget\CieloCheckout\CieloCheckout;
 use Iget\CieloCheckout\Models\CieloOrder;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Log;
 
 class CartOrder implements Arrayable
 {
@@ -225,7 +228,10 @@ class CartOrder implements Arrayable
     }
 
     /**
+     * @param \Illuminate\Database\Eloquent\Model $payable
+     *
      * @return string
+     * @throws \Exception
      */
     public function request(Model $payable)
     {
@@ -236,6 +242,9 @@ class CartOrder implements Arrayable
                 'MerchantId' => config('cielo.merchant_id'),
                 'Content-type' => 'application/json'
             ];
+
+            DB::beginTransaction();
+
             $cieloOrder = new CieloOrder();
             $cieloOrder->payable()->associate($payable);
             $cieloOrder->save();
@@ -251,9 +260,13 @@ class CartOrder implements Arrayable
 
             $response = json_decode($response->getBody());
 
+            DB::commit();
+
             return $response->settings->checkoutUrl;
         } catch (RequestException $e) {
-            \Log::alert(
+            DB::rollback();
+
+            Log::alert(
                 'RequestException when trying to get checkoutUrl from Cielo Checkout',
                 [
                     'code' => $e->getCode(),
@@ -262,6 +275,10 @@ class CartOrder implements Arrayable
             );
 
             return abort(500);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            throw $e;
         }
     }
 }
