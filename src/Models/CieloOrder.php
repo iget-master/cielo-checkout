@@ -64,6 +64,15 @@ class CieloOrder extends Eloquent
         8 => 'CHARGEBACK',
     ];
 
+    const STATUS_PENDING = 1;
+    const STATUS_PAID = 2;
+    const STATUS_DENIED = 3;
+    const STATUS_EXPIRED = 4;
+    const STATUS_CANCELED = 5;
+    const STATUS_NOT_FINISHED = 6;
+    const STATUS_AUTHORIZED = 7;
+    const STATUS_CHARGEBACK = 8;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
