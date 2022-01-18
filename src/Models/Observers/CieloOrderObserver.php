@@ -16,7 +16,7 @@ class CieloOrderObserver
     public function creating(CieloOrder $model)
     {
         do {
-            $order_id = str_random(32);
+            $order_id =\Illuminate\Support\Str::random(32);
         } while (CieloOrder::where('order_id', '=', $order_id)->count());
 
         $model->order_id = $order_id;
