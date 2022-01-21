@@ -2,9 +2,9 @@
 
 namespace Iget\CieloCheckout\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class CieloOrder extends Resource
+class CieloOrder extends JsonResource
 {
     /**
      * Transform the resource into an array.
